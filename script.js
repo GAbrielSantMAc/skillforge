@@ -1,0 +1,42 @@
+let skills = [];
+
+function addSkill() {
+  const skillInput = document.getElementById("skillInput");
+  const skillName = skillInput.value.trim();
+  if (!skillName) return;
+
+  const skill = {
+    id: Date.now(),
+    name: skillName
+  };
+
+  skills.push(skill);
+  updateSkillList();
+  skillInput.value = "";
+}
+
+function updateSkillList() {
+  const skillList = document.getElementById("skillList");
+  skillList.innerHTML = "";
+
+  skills.forEach(skill => {
+    const li = document.createElement("li");
+    li.textContent = skill.name;
+    li.onclick = () => showAISuggestions(skill.name);
+    skillList.appendChild(li);
+  });
+}
+
+function showAISuggestions(skillName) {
+  const aiOutput = document.getElementById("aiOutput");
+
+  // Simulação de respostas de IA
+  const suggestions = {
+    "JavaScript": "Pratique funções, objetos e DOM manipulation.",
+    "Python": "Foque em listas, dicionários e pequenos projetos.",
+    "React": "Aprenda hooks, state management e props.",
+    "HTML": "Estude tags semânticas, formulários e layout."
+  };
+
+  aiOutput.textContent = suggestions[skillName] || "Explore tutoriais e pratique projetos!";
+}
