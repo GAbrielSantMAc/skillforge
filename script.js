@@ -73,3 +73,15 @@ function showAISuggestions(skillName) {
 
 // Inicializa lista ao carregar a página
 updateSkillList();
+function updateSkillList() {
+  const skillList = document.getElementById("skillList");
+  skillList.innerHTML = "";
+
+  skills.forEach(skill => {
+    const li = document.createElement("li");
+    li.textContent = skill.name;
+    li.style.cursor = "pointer";
+    li.onclick = () => showAISuggestions(skill.name);
+    skillList.appendChild(li);
+  });
+}
