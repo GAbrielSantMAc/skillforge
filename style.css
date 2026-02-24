@@ -9,21 +9,28 @@ body {
 
 .container {
   background: #1e1e1e;
-  padding: 20px;
-  border-radius: 10px;
-  width: 450px;
+  padding: 25px;
+  border-radius: 15px;
+  width: 480px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+h1, h3 {
+  text-align: center;
 }
 
 input, button {
-  padding: 8px;
+  padding: 12px;
   margin: 5px 0;
   width: 100%;
+  border-radius: 6px;
+  border: none;
 }
 
 button {
   background: #4CAF50;
-  border: none;
   color: white;
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -31,7 +38,19 @@ button:hover {
   background: #45a049;
 }
 
-li {
+.skills-list ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.skills-list li {
   margin-top: 10px;
   cursor: pointer;
+}
+
+.ai-suggestions {
+  margin-top: 20px;
+  background: #2a2a2a;
+  padding: 15px;
+  border-radius: 10px;
 }
