@@ -49,3 +49,11 @@ function showAISuggestions(skillName) {
 
   aiOutput.textContent = suggestions[skillName] || "Explore tutoriais e pratique projetos!";
 }
+let skills = JSON.parse(localStorage.getItem("skills")) || [];
+updateSkillList();
+function addSkill() {
+  skills.push(skill);
+  localStorage.setItem("skills", JSON.stringify(skills)); // SALVA
+  updateSkillList();
+  skillInput.value = "";
+}
