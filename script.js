@@ -17,25 +17,13 @@ function updateSkillList() {
 
 // Adiciona nova habilidade
 function addSkill() {
-  const skillInput = document.getElementById("skillInput"); // captura o input
-  const skillName = skillInput.value.trim(); // remove espaços
-
+  const skillInput = document.getElementById("skillInput");
+  const skillName = skillInput.value.trim();
   if (!skillName) {
     alert("Digite uma habilidade antes de adicionar!");
     return;
   }
 
-  const skill = {
-    id: Date.now(),
-    name: skillName
-  };
-
-  skills.push(skill); // adiciona ao array
-  localStorage.setItem("skills", JSON.stringify(skills)); // salva no localStorage
-
-  updateSkillList(); // atualiza a lista na tela
-  skillInput.value = ""; // limpa o campo
-}
   const skill = {
     id: Date.now(),
     name: skillName
@@ -73,15 +61,3 @@ function showAISuggestions(skillName) {
 
 // Inicializa lista ao carregar a página
 updateSkillList();
-function updateSkillList() {
-  const skillList = document.getElementById("skillList");
-  skillList.innerHTML = "";
-
-  skills.forEach(skill => {
-    const li = document.createElement("li");
-    li.textContent = skill.name;
-    li.style.cursor = "pointer";
-    li.onclick = () => showAISuggestions(skill.name);
-    skillList.appendChild(li);
-  });
-}
