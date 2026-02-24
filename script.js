@@ -22,6 +22,15 @@ function updateSkillList() {
   skills.forEach(skill => {
     const li = document.createElement("li");
     li.textContent = skill.name;
+    li.style.cursor = "pointer";
+    li.onclick = () => showAISuggestions(skill.name);
+    skillList.appendChild(li);
+  });
+}
+
+  skills.forEach(skill => {
+    const li = document.createElement("li");
+    li.textContent = skill.name;
     li.onclick = () => showAISuggestions(skill.name);
     skillList.appendChild(li);
   });
