@@ -1,7 +1,8 @@
-// Carrega habilidades do localStorage ou inicializa vazio
+// 🔐 Coloque sua chave da OpenAI aqui (apenas para teste local)
+const OPENAI_API_KEY = "SUA_CHAVE_AQUI";
+
 let skills = JSON.parse(localStorage.getItem("skills")) || [];
 
-// Atualiza a lista na tela
 function updateSkillList() {
   const skillList = document.getElementById("skillList");
   skillList.innerHTML = "";
@@ -9,55 +10,67 @@ function updateSkillList() {
   skills.forEach(skill => {
     const li = document.createElement("li");
     li.textContent = skill.name;
-    li.style.cursor = "pointer";
-    li.onclick = () => showAISuggestions(skill.name);
+    li.onclick = () => gerarSugestaoIA(skill.name);
     skillList.appendChild(li);
   });
 }
 
-// Adiciona nova habilidade
 function addSkill() {
   const skillInput = document.getElementById("skillInput");
   const skillName = skillInput.value.trim();
+
   if (!skillName) {
     alert("Digite uma habilidade antes de adicionar!");
     return;
   }
 
-  const skill = {
+  skills.push({
     id: Date.now(),
     name: skillName
-  };
+  });
 
-  skills.push(skill);
-
-  // Salva no localStorage
   localStorage.setItem("skills", JSON.stringify(skills));
-
   updateSkillList();
   skillInput.value = "";
 }
 
-// Gera sugestão dinâmica para qualquer habilidade
-function gerarSugestao(skillName) {
-  const nome = skillName.toLowerCase();
-
-  if (nome.includes("javascript")) return "Pratique funções, objetos e manipulação do DOM.";
-  if (nome.includes("python")) return "Foque em listas, dicionários e pequenos projetos.";
-  if (nome.includes("react")) return "Aprenda hooks, gerenciamento de estado e props.";
-  if (nome.includes("html")) return "Estude tags semânticas, formulários e layout.";
-  if (nome.includes("css")) return "Aprofunde em flexbox, grid e animações.";
-
-  // Sugestão genérica para qualquer outra habilidade
-  return `Explore conteúdos e pratique bastante ${skillName}!`;
-}
-
-// Mostra sugestão no HTML
-function showAISuggestions(skillName) {
+// 🧠 Função que chama IA real
+async function gerarSugestaoIA(skillName) {
   const aiOutput = document.getElementById("aiOutput");
-  const sugestao = gerarSugestao(skillName);
-  aiOutput.textContent = sugestao;
+  aiOutput.innerHTML = "🤖 Pensando...";
+
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${OPENAI_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: "Você é um mentor especialista em aprendizado e produtividade."
+          },
+          {
+            role: "user",
+            content: `Crie um plano de estudo prático e direto para aprender ${skillName}.`
+          }
+        ],
+        max_tokens: 200
+      })
+    });
+
+    const data = await response.json();
+    const sugestao = data.choices[0].message.content;
+
+    aiOutput.innerHTML = sugestao;
+
+  } catch (error) {
+    aiOutput.innerHTML = "Erro ao gerar sugestão. Verifique sua chave API.";
+    console.error(error);
+  }
 }
 
-// Inicializa lista ao carregar a página
 updateSkillList();
